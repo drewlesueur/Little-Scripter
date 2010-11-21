@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="http://includes.the.tl/css.css" />
+<style>
+  textarea {
+  width: 100%;
+  height: 300px;
+    
+  }
+
+</style>
+
+<link id="bespin_base" href="bespin"/>
+<link href="http://bespin/BespinEmbedded.css" type="text/css" rel="stylesheet">
+<script src="bespin/BespinEmbedded.js"></script>
+
+
+</head>
+<body>
+
+<table width="100%">
+<tr>
+<td>
+<textarea id="t" wrap="off" width="100%" onclick="run()"></textarea>
+</td>
+<td>
+<textarea id="r" wrap="off" width="100%"></textarea>
+</td>
+</tr>
+<tr>
+  <td colspan="2">
+    <input type="button" value="run" onclick="run()">
+    <!--<textarea id="c" wrap="off"></textarea>-->
+    <div id="c" style="width: 100%; height: 500px;"></div>
+  </td>
+</tr>
+</table>
+
+<script src="http://includes.the.tl/jquery.js"></script>
+<script src="http://includes.the.tl/underscore.js"></script>
+<script src="http://includes.the.tl/util.js"></script>
+<script src="http://includes.the.tl/util2.js"></script>
+<script src="http://includes.the.tl/coffeescript.js"></script>
+<script src="http://includes.the.tl/jquery.tabby.js"></script>
+
+<script type="text/coffeescript">
+window.run = () ->
+  val = window.editor.value
+  val = CoffeeScript.compile val
+  #alert val
+  
+  eval "#{val}"
+  
+$(document).ready () ->
+  #$("textarea").tabby()  
+  window.t = () ->
+    return $('#t').val()
+  window.r = (val) ->
+    $('#r').val(val)
+  bespin.useBespin("c", {
+    stealFocus: true
+    tabstop: 2
+    fontsize: 15
+  }).then (env) ->
+    window.editor = env.editor
+    console.log editor
+    env.settings.set('tabstop', 2)
+    env.settings.set('fontsize', 16)
+    
+</script>
+
+
+
+</body>
+</html>
